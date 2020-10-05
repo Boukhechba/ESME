@@ -4,7 +4,7 @@ library(pan)
 library(rstatix)
 library(r2glmm)
 
-ppg <- read.csv("C:/Users/mob3f/Documents/ESME/results/Clean_Data/Smartwatch_HeartRate.csv")
+ppg <- read.csv("C:/Users/mob3f/Google Drive/Projects/ESME_2/Clean/Smartwatch_HeartRateDatum.csv")
 
 ppg$day <-substr(ppg$Timestamp, 9, 10)
 ppg$hour <-substr(ppg$Timestamp, 12, 13)
@@ -13,27 +13,24 @@ ppg$second <-substr(ppg$Timestamp, 18, 19)
 
 colors=c("green","grey")
 
-ppg$DeviceId <- gsub("1f1160b6b06c680e", "7", ppg$DeviceId)
-ppg$DeviceId <- gsub("3f24e81eb47d4cf0", "13", ppg$DeviceId)
-ppg$DeviceId <- gsub("5f032c11219f031c", "5", ppg$DeviceId)
-ppg$DeviceId <- gsub("6d4e6abb10a884bf", "8", ppg$DeviceId)
-ppg$DeviceId <- gsub("6fb74eec82575fcf", "2", ppg$DeviceId)
-ppg$DeviceId <- gsub("92fa687c4f0e7254", "6", ppg$DeviceId)
-ppg$DeviceId <- gsub("b153ad6b92b13c20", "11", ppg$DeviceId)
-ppg$DeviceId <- gsub("bb709ae6879f89e4", "12", ppg$DeviceId)
-ppg$DeviceId <- gsub("c6b48865bc00d278", "1", ppg$DeviceId)
-ppg$DeviceId <- gsub("d9075f3751fe3f60", "10", ppg$DeviceId)
-ppg$DeviceId <- gsub("eadcd47e37140e83", "3", ppg$DeviceId)
-ppg$DeviceId <- gsub("f48eede2f24a01ec", "4", ppg$DeviceId)
-ppg$DeviceId <- gsub("f4beafed9563ddde", "9", ppg$DeviceId)
+ppg$DeviceId <- gsub("a479b12a85b58130", "7", ppg$DeviceId)
+ppg$DeviceId <- gsub("4accf2d36f310fe9", "5", ppg$DeviceId)
+ppg$DeviceId <- gsub("12ea8bb52210b6b5", "8", ppg$DeviceId)
+ppg$DeviceId <- gsub("3ac1e7a9c2148421", "2", ppg$DeviceId)
+ppg$DeviceId <- gsub("151da40074d43f13", "6", ppg$DeviceId)
+ppg$DeviceId <- gsub("bf5a9d9a4341e0d7", "1", ppg$DeviceId)
+ppg$DeviceId <- gsub("9d91b2125b58af0a", "10", ppg$DeviceId)
+
+ppg$DeviceId <- gsub("6cbaa8400344c965", "4", ppg$DeviceId)
+ppg$DeviceId <- gsub("d249d9cafed3427d", "9", ppg$DeviceId)
+ppg$DeviceId <- gsub("ac1ba3fc6a229b8d", "0", ppg$DeviceId)
 
 ppg$DeviceId <- as.numeric(ppg$DeviceId)
 ppg$day <- as.numeric(ppg$day)
 
-ppg <- subset(ppg, day==20 | day ==21)
-ppg <- subset(ppg, DeviceId < 13)
-ppg <- subset(ppg, DeviceId != 6)
-ppg <- subset(ppg, DeviceId != 7)
+
+ppg <- subset(ppg, day==3 | day ==27)
+
 ppg$ZHR <- ave(ppg$HR, ppg$DeviceId, FUN=scale)
 
 ppg$expday <- ifelse(ppg$day==20,1,2)
@@ -44,7 +41,7 @@ ppg$combin <- paste (ppg$groupe,ppg$condition)
 # ppg <- subset(ppg, DeviceId != 10)
 # ppg <- subset(ppg, DeviceId != 11)
 
-write.csv(ppg, "C:/Users/mob3f/Documents/ESME/results/Clean_Data/Smartwatch_HeartRate_clean.csv")
+write.csv(ppg, "C:/Users/mob3f/Google Drive/Projects/ESME_2/Clean/Smartwatch_HeartRateDatum_Clean.csv")
 
 
 g <- ggplot(ppg, aes(x=condition, y=HR, fill=condition))
@@ -61,7 +58,7 @@ summary(ppg2)
 
 colors=c("green","grey")
 ggplot(ppg2, aes(x=condition, y=rmssd, fill=condition))+
- geom_boxplot(alpha=0.5,fill=colors)  +
+  geom_boxplot(alpha=0.5,fill=colors)  +
   theme(text = element_text(size=20))+
   coord_cartesian(ylim = c(0, 10))+
   theme_bw()+ 
