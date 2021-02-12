@@ -3,6 +3,7 @@ library(nlme)
 library(pan)
 library(rstatix)
 library(r2glmm)
+library(dplyr)
 
 ppg <- read.csv("C:/Users/mob3f/Google Drive/Projects/ESME_2/Clean/Smartwatch_HeartRateDatum.csv")
 
@@ -44,7 +45,7 @@ ppg$combin <- paste (ppg$groupe,ppg$condition)
 write.csv(ppg, "C:/Users/mob3f/Google Drive/Projects/ESME_2/Clean/Smartwatch_HeartRateDatum_Clean.csv")
 
 
-g <- ggplot(ppg, aes(x=condition, y=HR, fill=condition))
+g <- ggplot(ppg, aes(x=condition, y=rmssd, fill=condition))
 g + geom_boxplot(alpha=0.2,fill=colors)  +
   theme(text = element_text(size=20))
 
@@ -52,12 +53,12 @@ y<-aggregate(HR~DeviceId+condition,data=ppg,FUN=length)
 summary(lme(HR ~ condition , random = ~1|DeviceId,control=ctrl, data=ppg, method="ML"))
 t.test(ppg$HR~ppg$condition)
 ###############################################
-ppg2 <- read.csv("C:/Users/mob3f/Documents/ESME/results/Clean_Data/Smartwatch_HRV.csv")
+ppg2 <- read.csv("C:/Users/mehdi/Documents/Python_scripts/ESME/smartwatch/Smartwatch_HRV_R2.csv")
 ppg2$rmssd
 summary(ppg2)
 
 colors=c("green","grey")
-ggplot(ppg2, aes(x=condition, y=rmssd, fill=condition))+
+ggplot(ppg, aes(x=condition, y=rmssd, fill=condition))+
   geom_boxplot(alpha=0.5,fill=colors)  +
   theme(text = element_text(size=20))+
   coord_cartesian(ylim = c(0, 10))+
